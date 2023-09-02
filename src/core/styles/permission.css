@@ -1,0 +1,18 @@
+/* styles.css */
+
+.permission-button {
+    position: relative;
+  }
+  
+  .permission-tooltip {
+    position: absolute;
+    top: -100%; /* Coloca el tooltip arriba del elemento */
+    right: 0; /* Lo alinea a la derecha del elemento */
+    background-color: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    white-space: nowrap;
+  }
+  
