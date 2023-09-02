@@ -1,0 +1,1 @@
+import{J as n,aB as r}from"./index-6eab465e.js";const a=s=>{const t=s.substring(s.lastIndexOf("."),s.length),e=n().mode=="dark"?`${s.substring(0,s.lastIndexOf("."))}-dark`:s.substring(0,s.lastIndexOf("."));return`/media/illustrations/${r.value}/${e}${t}`},d=s=>"/"+s;export{a,d as g};
