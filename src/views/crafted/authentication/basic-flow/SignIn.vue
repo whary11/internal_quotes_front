@@ -12,7 +12,7 @@
       <!--begin::Heading-->
       <div class="text-center mb-10">
         <!--begin::Title-->
-        <h1 class="text-dark mb-3">{{translate("signIn")}}</h1>
+        <h1 class="text-dark mb-3">{{ translate("signIn") }}</h1>
         <!--end::Title-->
 
         <!--begin::Link-->
@@ -175,6 +175,7 @@ import { useRouter } from "vue-router";
 import Swal from "sweetalert2/dist/sweetalert2.js";
 import * as Yup from "yup";
 import { translate } from "element-plus";
+import { useI18n } from "vue-i18n";
 
 export default defineComponent({
   name: "sign-in",
@@ -248,11 +249,21 @@ export default defineComponent({
         submitButton.value!.disabled = false;
     };
 
+    const translate = (text) => {
+      const { t, te } = useI18n();
+            if (te(text)) {
+                return t(text);
+            } else {
+                return text;
+            }
+    }
+
     return {
       onSubmitLogin,
       login,
       submitButton,
-      getAssetPath
+      getAssetPath,
+      translate
     };
   },
 });
