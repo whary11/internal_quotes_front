@@ -246,7 +246,7 @@ const MainMenuConfig: Array<MenuItem> = [
     route: "/apps",
     pages: [
       {
-        sectionTitle: "Clientes",
+        sectionTitle: "Cliente",
         route: "/customers",
         keenthemesIcon: "abstract-38",
         bootstrapIcon: "bi-printer",

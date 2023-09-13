@@ -238,7 +238,7 @@
 import { getAssetPath } from "@/core/helpers/assets";
 import { defineComponent, onMounted, ref } from "vue";
 import { useRoute } from "vue-router";
-import MainMenuConfig from "@/core/config/MainMenuConfig";
+import MainMenuConfig from "@/core/config/CleanMainMenuConfig";
 import { sidebarMenuIcons } from "@/core/helpers/config";
 import { useI18n } from "vue-i18n";
 

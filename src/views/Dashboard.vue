@@ -9,7 +9,6 @@
         bgColor="#F1416C"
         :bgImage="getAssetPath('media/patterns/vector-1.png')"
       />
-
       <Widget2
         className="h-md-50 mb-5 mb-xl-10"
         :icon="false"

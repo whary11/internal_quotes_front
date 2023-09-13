@@ -17,8 +17,27 @@ const MainMenuConfig: Array<MenuItem> = [
         keenthemesIcon: "element-11",
         bootstrapIcon: "bi-app-indicator",
       },
+
+      {
+        sectionTitle: "Cotizaciones",
+        route: "/quotes",
+        keenthemesIcon: "abstract-38",
+        bootstrapIcon: "bi-printer",
+        sub: [
+          
+          {
+            heading: "Crear cotización",
+            route: "/quote/create",
+          },
+          {
+            heading: "Ver cotizaciones",
+            route: "/quote/list",
+          },
+        ],
+      },
     ],
   },
+  
 ];
 
 export default MainMenuConfig;

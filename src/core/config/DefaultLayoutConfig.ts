@@ -46,7 +46,7 @@ const config: LayoutConfigTypes = {
     },
   },
   pageTitle: {
-    display: true,
+    display: false,
     breadcrumb: true,
     direction: "column",
   },

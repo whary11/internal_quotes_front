@@ -5,22 +5,25 @@ import JwtService from "@/core/services/JwtService";
 
 export interface User {
   name: string;
-  surname: string;
   email: string;
   password: string;
-  api_token: string;
+  token: string;
+  device_name: string;
+  roles: Array<string>;
+  permissions: Array<string>;
 }
 
 export const useAuthStore = defineStore("auth", () => {
   const errors = ref({});
-  const user = ref<User>({} as User);
+  const user = ref<User>(JSON.parse(window.localStorage.getItem('user')));
   const isAuthenticated = ref(!!JwtService.getToken());
 
   function setAuth(authUser: User) {
     isAuthenticated.value = true;
     user.value = authUser;
     errors.value = {};
-    JwtService.saveToken(user.value.api_token);
+    JwtService.saveToken(user.value.token);
+    window.localStorage.setItem('user', JSON.stringify(authUser));
   }
 
   function setError(error: any) {
@@ -35,12 +38,16 @@ export const useAuthStore = defineStore("auth", () => {
   }
 
   function login(credentials: User) {
-    return ApiService.post("login", credentials)
-      .then(({ data }) => {
-        setAuth(data);
+    return ApiService.post("/auth/login", credentials)
+      .then((resp) => {
+        if (!resp.status) {
+          setError({messageError:resp.message})
+          return
+        }
+        setAuth(resp.data);
       })
-      .catch(({ response }) => {
-        setError(response.data.errors);
+      .catch(( error ) => {
+        setError(error);
       });
   }
 
@@ -70,15 +77,15 @@ export const useAuthStore = defineStore("auth", () => {
 
   function verifyAuth() {
     if (JwtService.getToken()) {
-      ApiService.setHeader();
-      ApiService.post("verify_token", { api_token: JwtService.getToken() })
-        .then(({ data }) => {
-          setAuth(data);
-        })
-        .catch(({ response }) => {
-          setError(response.data.errors);
-          purgeAuth();
-        });
+      // ApiService.setHeader();
+      // ApiService.post("verify_token", { api_token: JwtService.getToken() })
+      //   .then(({ data }) => {
+      //     setAuth(data);
+      //   })
+      //   .catch(({ response }) => {
+      //     setError(response.data.errors);
+      //     purgeAuth();
+      //   });
     } else {
       purgeAuth();
     }

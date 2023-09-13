@@ -24,6 +24,43 @@ const routes: Array<RouteRecordRaw> = [
           breadcrumbs: ["Dashboards"],
         },
       },
+      {
+        path: "/create-quote",
+        name: "create-quote",
+        component: () => import("@/views/quote/CreateQuote.vue"),
+        meta: {
+          pageTitle: "Dashboard",
+          breadcrumbs: ["Cotizaciones",'Crear Cotización'],
+        },
+      },
+    ],
+  },
+  {
+    path: "/",
+    redirect: "/cotizaciones",
+    component: () => import("@/layouts/main-layout/MainLayout.vue"),
+    meta: {
+      middleware: "auth",
+    },
+    children: [
+      {
+        path: "/quote/create",
+        name: "create-quote",
+        component: () => import("@/views/quote/CreateQuote.vue"),
+        meta: {
+          pageTitle: "Cotizaciones",
+          breadcrumbs: ["Cotizaciones",'Crear Cotización'],
+        },
+      },
+      {
+        path: "/quote/list",
+        name: "view-quotes",
+        component: () => import("@/views/quote/ViewQuotes.vue"),
+        meta: {
+          pageTitle: "Cotizaciones",
+          breadcrumbs: ["Cotizaciones",'Ver cotizaciones'],
+        },
+      },
     ],
   },
   {
