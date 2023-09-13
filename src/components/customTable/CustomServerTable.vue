@@ -48,10 +48,11 @@
 
 <script lang="ts">
 import ApiService from '@/core/services/ApiService'
+import type { HeaderTable } from '@/interfaces/general'
 export default {
     props:{
         headers: {
-            type: Array,
+            type: Array<HeaderTable>,
             required: true
         },
         url: {

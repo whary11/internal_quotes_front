@@ -5,6 +5,6 @@ export interface ResponseApi {
 }
 
 export interface HeaderTable {
-    label?:string,
+    label:string,
     displayName:string
 }
