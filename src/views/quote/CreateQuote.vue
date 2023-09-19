@@ -9,7 +9,7 @@
                         <div class="col-md-6 mt-2">
                             <label for="exampleFormControlInput1" class="required form-label">Cliente</label>
                             <Multiselect 
-                                v-model="data_save.customer_id" 
+                                v-model="data_save.customer" 
                                 :required="true"  
                                 placeholder="Seleccionar cliente" 
                                 :filter-results="false"
@@ -20,7 +20,12 @@
                                 :options="async function(query) {
                                     return await customerStore.searchCustomerByName(query)
                                 }"
-                            />
+                            >
+                                <template #singleLabel="{option}"> 
+                                    <span>{{ option.name }}</span>
+                                </template>
+                            <!-- <template slot="singleLabel" slot-scope="{ option }">{{ option.name }}</template> -->
+                            </Multiselect>
                         </div>
                         <div class="col-md-6 mt-2">
                             <label for="exampleFormControlInput1" class="required form-label">Fecha de entrega</label>
@@ -71,8 +76,8 @@
                                             <input type="number" v-model.trim="item.hours" class="form-control" placeholder="Horas"/> 
                                             <!-- {{ item.hours }} -->
                                         </td>
-                                        <td>{{ formatCurrency(generalStore.value_per_hour) }}</td>
-                                        <td>{{ formatCurrency(item.hours * generalStore.value_per_hour)}}</td>
+                                        <td>{{ formatCurrency(data_save.customer?.value_per_hour) }}</td>
+                                        <td>{{ formatCurrency(item.hours * data_save.customer?.value_per_hour)}}</td>
                                         <td>
                                             <i @click.prevent="deleteRequirement(index)" class="fa-solid fa-delete-left text-danger fs-1" style="cursor: pointer;"></i>
                                         </td>
@@ -108,7 +113,6 @@
     import Multiselect from "@vueform/multiselect";
     import { useAuthStore, type User } from "@/stores/auth";
     import { useCustomerStore } from "@/stores/customer"
-    import { useGeneralStore } from "@/stores/general"
     import { useQuoteStore } from "@/stores/quote"
     import type { Quote, Requirement } from "@/interfaces/quote";
     import Swal from "sweetalert2";
@@ -116,21 +120,25 @@
     import readXlsxFile from 'read-excel-file'
 
     const customerStore = useCustomerStore()
-    const generalStore = useGeneralStore()
     const quoteStore = useQuoteStore()
     const dataAddRequirement = ref<Requirement>({title:null,hours:1})
-    const data_save = ref<Quote>({customer_id:null,delivery_at:null,details:[]})
+    const data_save = ref<Quote>({customer:null,delivery_at:null,details:[]})
     const loader = useLoading()
     const inputFileImport = ref<HTMLInputElement>()
 
     const totalQuote = computed(()=>{
-        let suma =  data_save.value.details.reduce((acumulador, item) => acumulador + item.hours, 0);
-        return suma*generalStore.value_per_hour
+        if (data_save.value.customer?.value_per_hour ) {
+            let suma =  data_save.value.details.reduce((acumulador, item) => acumulador + item.hours, 0);
+            return suma * <number | 1>data_save.value.customer.value_per_hour 
+        }
+        return 0;
     })
 
     const addRequirement = ()=>{
         try {
-            if (!dataAddRequirement.value.title) {
+            if (!data_save.value.customer) {
+                throw new Error("Debe elegir un cliente");
+            }else if (!dataAddRequirement.value.title) {
                 throw new Error("El requerimiento es obligatorio");
             }else if(!dataAddRequirement.value?.hours){
                 throw new Error("Las horas son obligatorias");
@@ -157,7 +165,7 @@
     }
     const generateQuote = async ()=>{
         try {
-            if (!data_save.value.customer_id) {
+            if (!data_save.value.customer) {
                 throw new Error("Debe elegir un cliente");
             }else if (!data_save.value.delivery_at) {
                 throw new Error("Debe elegir una fecha de entrega");
@@ -169,7 +177,7 @@
                 throw new Error("Verfica el listado requerimientos");
             }
             loader.show()
-            await quoteStore.saveQuote(data_save.value)
+            await quoteStore.saveQuote({...data_save.value, customer_id:data_save.value.customer?.id})
             loader.hide()
             Swal.fire({
                 text:<string>quoteStore.respCreateQuote?.message,
@@ -180,10 +188,8 @@
                 },
             })
             if (quoteStore.respCreateQuote?.status) {
-                data_save.value = {customer_id:null,delivery_at:null,details:[]}
+                data_save.value = {customer:null,delivery_at:null,details:[]}
             }
-            console.log('quoteStore',quoteStore.respCreateQuote);
-            
         } catch (error:any) {
             loader.hide()
             Swal.fire({
@@ -201,6 +207,9 @@
     }
     const addRequirementFromExcel = async () => {
         try {
+            if (!data_save.value.customer) {
+                throw new Error("Debe elegir un cliente");
+            }
             const file = inputFileImport.value?.files?.[0]
             if (!file) {
                 throw new Error("Por favor, seleccione un archivo Excel.");
