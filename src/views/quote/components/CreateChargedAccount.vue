@@ -1,13 +1,13 @@
 <template>
     <div>
-        <div class="modal fade" tabindex="-1" id="kt_modal_scrollable_2"  :ref="refModal">
+        <div class="modal fade" tabindex="-1" id="modal_create_charged_account">
             <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered">
                 <form class="modal-content" v-if="props.quote" @submit.prevent="save">
                     <div class="modal-header">
-                        <h5 class="modal-title">Cuanta de cobro para la cotización {{ props.quote.id }} </h5>
+                        <h5 class="modal-title">Nueva cuenta de cobro para la cotización: <b>{{ props.quote.id }}</b> </h5>
 
                         <!--begin::Close-->
-                        <button class="btn btn-icon btn-sm btn-active-light-primary ms-2"  data-bs-dismiss="modal" aria-label="Close">
+                        <button type="button" class="btn btn-icon btn-sm btn-active-light-primary ms-2"  data-bs-dismiss="modal" aria-label="Close">
                             <i class="ki-duotone ki-cross fs-2x"><span class="path1"></span><span class="path2"></span></i>
                         </button>
                         <!--end::Close-->
@@ -63,7 +63,6 @@
     const quoteStore = useQuoteStore()
 
     const data_save = ref<ChargedAccount>({price:null,billing_data_id:null})
-    const refModal = ref<HTMLInputElement>()
     const loader = useLoading()
 
     const save = async()=>{

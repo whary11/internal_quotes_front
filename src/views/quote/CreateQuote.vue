@@ -28,8 +28,8 @@
                             </Multiselect>
                         </div>
                         <div class="col-md-6 mt-2">
-                            <label for="exampleFormControlInput1" class="required form-label">Fecha de entrega</label>
-                            <input type="date" class="form-control" v-model.trim="data_save.delivery_at" placeholder="Fecha de entrega"/>
+                            <label for="exampleFormControlInput1" class="required form-label">Titulo</label>
+                            <input type="text" class="form-control" v-model.trim="data_save.title" placeholder="Titulo de la cotización"/>
                         </div>
                     </div>
                     <!-- Fin datos Generales -->
@@ -122,7 +122,7 @@
     const customerStore = useCustomerStore()
     const quoteStore = useQuoteStore()
     const dataAddRequirement = ref<Requirement>({title:null,hours:1})
-    const data_save = ref<Quote>({customer:null,delivery_at:null,details:[]})
+    const data_save = ref<Quote>({customer:null,title:null,details:[]})
     const loader = useLoading()
     const inputFileImport = ref<HTMLInputElement>()
 
@@ -167,8 +167,8 @@
         try {
             if (!data_save.value.customer) {
                 throw new Error("Debe elegir un cliente");
-            }else if (!data_save.value.delivery_at) {
-                throw new Error("Debe elegir una fecha de entrega");
+            }else if (!data_save.value.title) {
+                throw new Error("Debe escribir un titulo");
             }else if (data_save.value.details.length == 0) {
                 throw new Error("Debe agregar almenos un requerimiento");
             }
@@ -188,7 +188,7 @@
                 },
             })
             if (quoteStore.respCreateQuote?.status) {
-                data_save.value = {customer:null,delivery_at:null,details:[]}
+                data_save.value = {customer:null,title:null,details:[]}
             }
         } catch (error:any) {
             loader.hide()
