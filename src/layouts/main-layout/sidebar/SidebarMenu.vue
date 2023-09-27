@@ -35,6 +35,7 @@
                   class="menu-link"
                   active-class="active"
                   :to="menuItem.route"
+                  v-permission="menuItem.permission" 
                 >
                   <span
                     v-if="menuItem.keenthemesIcon || menuItem.bootstrapIcon"
@@ -96,13 +97,12 @@
                       class="menu-link"
                       active-class="active"
                       :to="item2.route"
+                      v-permission="item2.permission" 
                     >
                       <span class="menu-bullet">
                         <span class="bullet bullet-dot"></span>
                       </span>
-                      <span class="menu-title">{{
-                        translate(item2.heading)
-                      }}</span>
+                      <span class="menu-title">{{ translate(item2.heading)}}</span>
                     </router-link>
                   </div>
                   <div
@@ -118,7 +118,7 @@
                       </span>
                       <span class="menu-title">{{
                         translate(item2.sectionTitle)
-                      }}</span>
+                      }} </span>
                       <span class="menu-arrow"></span>
                     </span>
                     <div
@@ -132,6 +132,7 @@
                             class="menu-link"
                             active-class="active"
                             :to="item3.route"
+                            v-permission="item3.permission" 
                           >
                             <span class="menu-bullet">
                               <span class="bullet bullet-dot"></span>

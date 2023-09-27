@@ -1,11 +1,15 @@
 import tippy from 'tippy.js';
-
+const superUser = "SUPER ADMIN"
 
 export const permission = {
     mounted(el, binding) {
+        if (!binding.value) {
+            return 
+        }
         const permissions = binding.value.permissions;
         const documentation = binding.value.documentation;
         const showAll = binding.value.showAll ?? false;
+        
         const hasPermission = checkUserPermission(permissions);
         if (!hasPermission) {
             el.remove()
@@ -33,9 +37,12 @@ function showTooltip(el, permissions, documentation) {
 
 // Simula una función para verificar si el usuario tiene el permiso
 function checkUserPermission(requiredPermissions) {
-    return true
-    const userPermissions = ['admin', 'user', 'editor', 'test_permission']; // Ejemplo de permisos del usuario
+    let user = JSON.parse(window.localStorage.getItem('user'));
+    const userPermissions = user.permissions
+    const userRoles = user.roles;
+    if (userRoles.includes(superUser)) {
+        return true
+    }
     return requiredPermissions.some(permission => userPermissions.includes(permission));
 }
 
-// Resto del código...

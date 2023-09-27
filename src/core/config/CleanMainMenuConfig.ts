@@ -6,6 +6,11 @@ export interface MenuItem {
   keenthemesIcon?: string;
   bootstrapIcon?: string;
   sub?: Array<MenuItem>;
+  permission?:{
+    showAll?:Boolean,
+    permissions?:Array<String>,
+    documentation?:String
+  };
 }
 
 const MainMenuConfig: Array<MenuItem> = [
@@ -24,14 +29,23 @@ const MainMenuConfig: Array<MenuItem> = [
         keenthemesIcon: "abstract-38",
         bootstrapIcon: "bi-printer",
         sub: [
-          
           {
             heading: "Crear cotización",
             route: "/quote/create",
+            permission: {
+              showAll:true,
+              permissions:['crear_cotizacion'],
+              documentation:"Crear cotización"
+            }
           },
           {
             heading: "Ver cotizaciones",
             route: "/quote/list",
+            permission: {
+              showAll:true,
+              permissions:['ver_cotizaciones'],
+              documentation:"Ver cotizaciones"
+            }
           },
         ],
       },
