@@ -35,6 +35,25 @@ const MainMenuConfig: Array<MenuItem> = [
           },
         ],
       },
+
+
+      {
+        sectionTitle: "Plantillas",
+        route: "/template",
+        keenthemesIcon: "abstract-38",
+        bootstrapIcon: "bi-printer",
+        sub: [
+          
+          {
+            heading: "Crear plantilla",
+            route: "/template/create",
+          },
+          // {
+          //   heading: "Ver cotizaciones",
+          //   route: "/quote/list",
+          // },
+        ],
+      },
     ],
   },
   

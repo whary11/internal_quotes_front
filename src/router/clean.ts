@@ -23,16 +23,7 @@ const routes: Array<RouteRecordRaw> = [
           pageTitle: "Dashboard",
           breadcrumbs: ["Dashboards"],
         },
-      },
-      {
-        path: "/create-quote",
-        name: "create-quote",
-        component: () => import("@/views/quote/CreateQuote.vue"),
-        meta: {
-          pageTitle: "Dashboard",
-          breadcrumbs: ["Cotizaciones",'Crear Cotización'],
-        },
-      },
+      }
     ],
   },
   {
@@ -61,64 +52,34 @@ const routes: Array<RouteRecordRaw> = [
           breadcrumbs: ["Cotizaciones",'Ver cotizaciones'],
         },
       },
+      
     ],
   },
+
   {
     path: "/",
-    component: () => import("@/layouts/AuthLayout.vue"),
+    redirect: "/template/create",
+    component: () => import("@/layouts/main-layout/MainLayout.vue"),
+    meta: {
+      middleware: "auth",
+    },
     children: [
       {
-        path: "/sign-in",
-        name: "sign-in",
-        component: () =>
-          import("@/views/crafted/authentication/basic-flow/SignIn.vue"),
+        path: "/template/create",
+        name: "create-template",
+        component: () => import("@/views/templates/CreateTemplate.vue"),
         meta: {
-          pageTitle: "Sign In",
+          pageTitle: "Plantillas",
+          breadcrumbs: ["Plantillas",'Crear plantilla'],
         },
-      },
-      {
-        path: "/sign-up",
-        name: "sign-up",
-        component: () =>
-          import("@/views/crafted/authentication/basic-flow/SignUp.vue"),
-        meta: {
-          pageTitle: "Sign Up",
-        },
-      },
-      {
-        path: "/password-reset",
-        name: "password-reset",
-        component: () =>
-          import("@/views/crafted/authentication/basic-flow/PasswordReset.vue"),
-        meta: {
-          pageTitle: "Password reset",
-        },
-      },
+      }
     ],
   },
-  {
-    path: "/",
-    component: () => import("@/layouts/SystemLayout.vue"),
-    children: [
-      {
-        // the 404 route, when none of the above matches
-        path: "/404",
-        name: "404",
-        component: () => import("@/views/crafted/authentication/Error404.vue"),
-        meta: {
-          pageTitle: "Error 404",
-        },
-      },
-      {
-        path: "/500",
-        name: "500",
-        component: () => import("@/views/crafted/authentication/Error500.vue"),
-        meta: {
-          pageTitle: "Error 500",
-        },
-      },
-    ],
-  },
+
+
+  
+  
+  
   {
     path: "/:pathMatch(.*)*",
     redirect: "/404",

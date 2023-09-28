@@ -1,5 +1,6 @@
 import { createApp } from "vue";
 import { createPinia } from "pinia";
+// import { quillEditor } from 'vue3-quill'
 import { Tooltip } from "bootstrap";
 import App from "./App.vue";
 
@@ -35,6 +36,9 @@ app.use(Loading,{
 app.use(createPinia());
 app.use(router);
 app.use(ElementPlus);
+
+// app.use(quillEditor)
+
 
 // ApiService.init(app);
 initApexCharts(app);
