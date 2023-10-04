@@ -83,7 +83,6 @@
             ref="submitButton"
             id="kt_sign_in_submit"
             class="btn btn-lg btn-primary w-100 mb-5"
-            v-permission="{permissions: ['test_permission'], documentation: 'Permiso de prueba'}"
           >
             <span class="indicator-label">  {{ translate("continue") }} </span>
   

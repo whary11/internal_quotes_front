@@ -38,6 +38,9 @@ function showTooltip(el, permissions, documentation) {
 // Simula una función para verificar si el usuario tiene el permiso
 function checkUserPermission(requiredPermissions) {
     let user = JSON.parse(window.localStorage.getItem('user'));
+    if (!user) {
+        return false
+    }
     const userPermissions = user.permissions
     const userRoles = user.roles;
     if (userRoles.includes(superUser)) {
